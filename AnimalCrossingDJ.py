@@ -16,7 +16,7 @@ playMe = SONGS[datetime.now().hour]                                             
 weather = Weather()                                                                     #Load the weather class
 lookup = weather.lookup_by_location('philadelphia')                                     #Get the philadelphia weather
 condition = int(lookup.condition.code)                                                  #Grab the current condition code
-print(condition)
+print(str(condition) + " : " + lookup.condition.text)
 
 if condition in RAIN_CODES:                                                             #Check for rainy weather
     playMe += "r"
