@@ -18,14 +18,14 @@ for x in range(69, 94):
 def playAnimal(s):
     global current_channel
     for c in s:
-        if c == ' ':
-            continue
-        voice_sound = sounds[alphabet.index(c)]
-        ch = pygame.mixer.find_channel(True)
-        print(ch)
-        ch.play(voice_sound)
-        time.sleep(.1)
+        if c.lower() in alphabet:
+            voice_sound = sounds[alphabet.index(c.lower())]
+            ch = pygame.mixer.find_channel(True)
+            ch.play(voice_sound)
+        print(c, end="", flush=True)
+        time.sleep(.05)
+    print("")
 
-playAnimal('hello there listener   welcome to animal crossing radio')
-
+playAnimal('Hello there listener.   Welcome to animal crossing radio!')
+playAnimal("It's a lovely day for some music. Don't you agree?")
 
