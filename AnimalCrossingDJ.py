@@ -12,17 +12,36 @@ SNOW_CODES = [5, 6, 7, 13, 14, 15, 16, 17, 18, 41, 42, 43, 46]                  
 SONGS = ['12AM','1AM', '2AM', '3AM', '4AM', '5AM', '6AM', '7AM',                        #The base of all song names based on the hour
                 '8AM', '9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM',              #For rainy versions, append a 'r' to the end of the file name
                 '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM', '11PM']               #For snowy versions, append a 's' to the end of the file name
+CURRENT_WEATHER = 0                                                                     # 0 = Normal | 1 = Rainy | 2 = Snowy
+
+def checkWeather():
+    global CURRENT_WEATHER
+    lookup = weather.lookup_by_location('philadelphia')
+    condition = int(lookup.condition.code)
+    print(datetime.now())
+    print(str(condition) + " : " + lookup.condition.text)
+
+    if condition in RAIN_CODES and CURRENT_WEATHER != 1:
+        CURRENT_WEATHER = 1
+        return True
+    elif condition in SNOW_CODES and CURRENT_WEATHER != 2:
+        CURRENT_WEATHER = 2
+        return True
+    elif CURRENT_WEATHER != 0:
+        return True
+    return False
+
+
 
 while(True):
     playMe = './Songs/' + SONGS[datetime.now().hour]                                        #Get the base song for the current hour
 
-    lookup = weather.lookup_by_location('philadelphia')                                     #Get the philadelphia weather
-    condition = int(lookup.condition.code)                                                  #Grab the current condition code
-    print(str(condition) + " : " + lookup.condition.text)
+    checkWeather()
 
-    if condition in RAIN_CODES:                                                             #Check for rainy weather
+
+    if CURRENT_WEATHER == 1:                                                                #Check for rainy weather
         playMe += "r"
-    elif condition in SNOW_CODES:                                                           #Check for snowy weather
+    elif CURRENT_WEATHER == 2:                                                              #Check for snowy weather
         playMe += "s"
 
     playMe += ".wav"                                                                        #Append file type
@@ -36,6 +55,9 @@ while(True):
 
     track.play(loops=-1, fade_ms=4000)                                                      #Play the song
     while pygame.mixer.get_busy():                                                          #Keep the program running while the song is still playing
-        if (datetime.now().minute == 59 and datetime.now().second >=30):
+        m, s = datetime.now().minute, datetime.now().second
+        if (m == 59 and s >=30):
+            track.fadeout(30000)
+        if (m % 5 == 0 and s == 0 and checkWeather()):
             track.fadeout(30000)
         time.sleep(1)

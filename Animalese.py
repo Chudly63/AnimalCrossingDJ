@@ -12,9 +12,6 @@ frame_test = wave.open('./Voice/069.wav', 'rb').getframerate()
 
 pygame.mixer.init(frequency = frame_test, buffer=512)
 
-for i in range(len(alphabet)):
-    print (alphabet[i] + " : " + sound_files[i])
-
 for x in sound_files:
     fileName = './Voice/' + x +'.wav' 
     sounds.append(pygame.mixer.Sound(fileName))
