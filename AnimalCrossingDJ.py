@@ -5,6 +5,7 @@ from datetime import datetime
 import time
 import wave
 import pygame
+from Animalese import Animalese
 
 weather = Weather()                                                                     #Load the weather class
 RAIN_CODES = [1, 2, 3, 4, 9, 10, 11, 12, 37, 38, 39, 40, 45, 47]                        #Weather Condition codes that indicate some type of rainy weather
@@ -13,6 +14,7 @@ SONGS = ['12AM','1AM', '2AM', '3AM', '4AM', '5AM', '6AM', '7AM',                
                 '8AM', '9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM',              #For rainy versions, append a 'r' to the end of the file name
                 '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM', '11PM']               #For snowy versions, append a 's' to the end of the file name
 CURRENT_WEATHER = 0                                                                     # 0 = Normal | 1 = Rainy | 2 = Snowy
+DJ = Animalese()
 
 def checkWeather():
     global CURRENT_WEATHER
@@ -23,11 +25,15 @@ def checkWeather():
 
     if condition in RAIN_CODES and CURRENT_WEATHER != 1:
         CURRENT_WEATHER = 1
+        DJ.speakAnimal("It's raining now")
         return True
     elif condition in SNOW_CODES and CURRENT_WEATHER != 2:
         CURRENT_WEATHER = 2
+        DJ.speakAnimal("It's snowing now")
         return True
     elif CURRENT_WEATHER != 0:
+        CURRENT_WEATHER = 0
+        DJ.speakAnimal("It stopped lol")
         return True
     return False
 
@@ -45,7 +51,7 @@ while(True):
         playMe += "s"
 
     playMe += ".wav"                                                                        #Append file type
-    print("Now playing: " + playMe)
+    DJ.speakAnimal("Now playing: " + playMe)
 
 
     track_file = wave.open(playMe,'rb')                                                     #Get the file data
