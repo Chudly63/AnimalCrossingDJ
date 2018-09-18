@@ -23,14 +23,16 @@ def checkWeather():
     print(datetime.now())
     print(str(condition) + " : " + lookup.condition.text)
 
-    if condition in RAIN_CODES and CURRENT_WEATHER != 1:
-        CURRENT_WEATHER = 1
-        DJ.speakAnimal("It's raining now")
-        return True
-    elif condition in SNOW_CODES and CURRENT_WEATHER != 2:
-        CURRENT_WEATHER = 2
-        DJ.speakAnimal("It's snowing now")
-        return True
+    if condition in RAIN_CODES:
+        if CURRENT_WEATHER != 1:
+            CURRENT_WEATHER = 1
+            DJ.speakAnimal("It's raining now")
+            return True
+    elif condition in SNOW_CODES:
+        if CURRENT_WEATHER != 2:
+            CURRENT_WEATHER = 2
+            DJ.speakAnimal("It's snowing now")
+            return True
     elif CURRENT_WEATHER != 0:
         CURRENT_WEATHER = 0
         DJ.speakAnimal("It stopped lol")
@@ -38,11 +40,11 @@ def checkWeather():
     return False
 
 
+checkWeather()
 
 while(True):
     playMe = './Songs/' + SONGS[datetime.now().hour]                                        #Get the base song for the current hour
 
-    checkWeather()
 
 
     if CURRENT_WEATHER == 1:                                                                #Check for rainy weather
