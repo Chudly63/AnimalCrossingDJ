@@ -15,3 +15,8 @@
   https://www.pygame.org/wiki/GettingStarted
   
     pip install pygame
+
+
+## Known Issues
+
+The current weather API being used no longer works. Unfortunately, I am so busy with projects and exams right now, so I cannot replace it. For now, I added a simple try/catch block to prevent the program from crashing
