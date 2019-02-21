@@ -18,7 +18,13 @@ DJ = Animalese()
 
 def checkWeather():
     global CURRENT_WEATHER
-    lookup = weather.lookup_by_location('philadelphia')
+    try:
+        lookup = weather.lookup_by_location('philadelphia')
+    except:
+        print("Error looking up weather...")
+        CURRENT_WEATHER = 0
+        return False
+        
     condition = int(lookup.condition.code)
     print(datetime.now())
     print(str(condition) + " : " + lookup.condition.text)
